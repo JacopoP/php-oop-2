@@ -86,6 +86,63 @@ class Product{
     }
 }
 
+class Food extends Product{
+    private $weight;
+    private $type;
+    private array $ingredients;
+    private $expiration_date;
+
+    public function __construct($name, $price, $description, Category $category, $weight, $type, array $ingredients, $date){
+        parent:: __construct($name, $price, $description, $category);
+        $this->setWeight($weight);
+        $this->setType($type);
+        $this->setIngredients($ingredients);
+        $this->setExpDate($date);
+    }
+
+    public function setWeight($weight){
+        $this->weight = $weight;
+    }
+    public function getWeight(){
+        return $this->weight;
+    }
+
+    public function setType($type){
+        $this->type = $type;
+    }
+    public function getType(){
+        return $this->type;
+    }
+
+    public function setIngredients(array $ingredients){
+        $this->ingredients = $ingredients;
+    }
+    public function getIngredients(){
+        $str;
+        foreach($this->ingredients as $ingredient){
+            $str.= $ingredient .' ';
+        }
+        return $str;
+    }
+
+    public function setExpDate($date){
+        $this->date = $date;
+    }
+    public function getExpDate(){
+        return $this->date;
+    }
+
+    public function GetHtml(){
+        return(
+            parent:: getHtml() 
+            .$this->getWeight() . '<br>'
+            .$this->getType() . '<br>'
+            .$this->getIngredients() . '<br>'
+            .$this->getExpDate() . '<br>'
+        );
+    }
+}
+
 $cane_ad = new Category('Cane', 'Adulto');
-$smt = new Product('ciao', '50', 'lorem ipsum', $cane_ad);
+$smt = new Food('ciao', '50', 'lorem ipsum', $cane_ad, 'abbastanza', 'secco', ['manzo', 'riso'], '2023-2-06');
 echo ($smt->getHtml());
