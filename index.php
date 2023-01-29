@@ -33,7 +33,8 @@ class Category{
 
 class Product{
     private $name;
-    private $price;
+    private bool $discount = false;
+    private float $price;
     private $description;
     private Category $category;
 
@@ -52,9 +53,17 @@ class Product{
         return $this->name;
     }
 
+    protected function getDiscount($date){
+        if(strtotime($date) - time() <= 60*60*24*7){
+            $this->discount = true;
+        }
+    }
     
     public function setPrice($price){
         $this->price = $price;
+        if($this->discount){
+            $this->price *= 0.7;
+        }
     }
     public function getPrice(){
         return $this->price;
@@ -92,7 +101,8 @@ class Food extends Product{
     private array $ingredients;
     private $expiration_date;
 
-    public function __construct($name, $price, $description, Category $category, $weight, $type, array $ingredients, $date){
+    public function __construct($name, float $price, $description, Category $category, $weight, $type, array $ingredients, $date){
+        parent:: getDiscount($date);
         parent:: __construct($name, $price, $description, $category);
         $this->setWeight($weight);
         $this->setType($type);
@@ -144,5 +154,5 @@ class Food extends Product{
 }
 
 $cane_ad = new Category('Cane', 'Adulto');
-$smt = new Food('ciao', '50', 'lorem ipsum', $cane_ad, 'abbastanza', 'secco', ['manzo', 'riso'], '2023-2-06');
+$smt = new Food('ciao', 50.30, 'lorem ipsum', $cane_ad, 'abbastanza', 'secco', ['manzo', 'riso'], '2023-2-07');
 echo ($smt->getHtml());
