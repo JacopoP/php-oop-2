@@ -2,13 +2,11 @@
 
 class Category{
     private $name;
-    private $description;
     private $age;
 
-    public function __contruct($name, $descr, $age){
-        setName($name);
-        setDescription($descr);
-        setAge($age);
+    public function __construct($name, $age){
+        $this->setName($name);
+        $this->setAge($age);
     }
 
     public function setName($name){
@@ -16,13 +14,6 @@ class Category{
     }
     public function getName(){
         return $this->name;
-    }
-
-    public function setDescription($descr){
-        $this->descr = $descr;
-    }
-    public function getDescription(){
-        return $this->descr;
     }
 
     public function setAge($age){
@@ -34,9 +25,67 @@ class Category{
 
     public function getHtml(){
         return(
-            getName() . '<br>'
-            .getDescription() . '<br>'
-            .getAge() . '<br>'
+            $this->getName() . '<br>'
+            .$this->getAge() . '<br>'
         );
     }
 }
+
+class Product{
+    private $name;
+    private $price;
+    private $description;
+    private Category $category;
+
+    public function __construct($name, $price, $description, Category $category){
+        $this->setName($name);
+        $this->setPrice($price);
+        $this->setDescription($description);
+        $this->setCategory($category);
+    }
+
+    
+    public function setName($name){
+        $this->name = $name;
+    }
+    public function getName(){
+        return $this->name;
+    }
+
+    
+    public function setPrice($price){
+        $this->price = $price;
+    }
+    public function getPrice(){
+        return $this->price;
+    }
+
+    
+    public function setDescription($descr){
+        $this->description = $descr;
+    }
+    public function getDescription(){
+        return $this->description;
+    }
+
+    
+    public function setCategory(Category $category){
+        $this->category = $category;
+    }
+    public function getCategory(){
+        return $this->category->getHtml();
+    }
+
+    public function getHtml(){
+        return(
+            $this->getName() . '<br>'
+            .$this->getPrice() . '<br>'
+            .$this->getDescription() . '<br>'
+            .$this->getCategory()
+        );
+    }
+}
+
+$cane_ad = new Category('Cane', 'Adulto');
+$smt = new Product('ciao', '50', 'lorem ipsum', $cane_ad);
+echo ($smt->getHtml());
